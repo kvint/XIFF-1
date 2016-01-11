@@ -25,7 +25,6 @@
  */
 package org.igniterealtime.xiff.data.message
 {
-    import org.igniterealtime.xiff.data.Extension;
 	import org.igniterealtime.xiff.data.IExtension;
 	
 	/**
@@ -44,11 +43,6 @@ package org.igniterealtime.xiff.data.message
 		public function ArchivePreferenceExtension( parent:XML = null )
 		{
 			super(parent);
-		}
-		
-		public function getNS():String
-		{
-			return ArchiveExtension.NS;
 		}
 		
 		public function getElementName():String

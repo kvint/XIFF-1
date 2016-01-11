@@ -25,7 +25,6 @@
  */
 package org.igniterealtime.xiff.data.message
 {
-    import org.igniterealtime.xiff.data.Extension;
 	import org.igniterealtime.xiff.data.IExtension;
 	import org.igniterealtime.xiff.core.UnescapedJID;
 	import org.igniterealtime.xiff.util.DateTimeParser;
@@ -48,15 +47,36 @@ package org.igniterealtime.xiff.data.message
 			super(parent);
 		}
 		
-		public function getNS():String
-		{
-			return ArchiveExtension.NS;
-		}
-		
 		public function getElementName():String
 		{
 			return ArchiveListExtension.ELEMENT_NAME;
         }
+		public function get chats():Vector.<ArchiveChatCollection>
+		{
+			var list:Vector.<ArchiveChatCollection> = new Vector.<ArchiveChatCollection>();
+			for each(var child:XML in xml.children().(localName() == ArchiveChatCollection.ELEMENT_NAME))
+			{
+				var item:ArchiveChatCollection = new ArchiveChatCollection();
+				item.xml = child;
+				list.push(item);
+			}
+			return list;
+		}
+
+		public function set chats(value:Vector.<ArchiveChatCollection>):void
+		{
+			removeFields(ArchiveChatCollection.ELEMENT_NAME);
+
+			if (value != null)
+			{
+				var len:uint = value.length;
+				for (var i:uint = 0; i < len; ++i)
+				{
+					var item:ArchiveChatCollection = value[i];
+					xml.appendChild(item.xml);
+				}
+			}
+		}
 		
 		/**
 		 *

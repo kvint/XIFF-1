@@ -25,37 +25,74 @@
  */
 package org.igniterealtime.xiff.data.message
 {
-    import org.igniterealtime.xiff.data.Extension;
 	import org.igniterealtime.xiff.data.IExtension;
+	import org.igniterealtime.xiff.core.UnescapedJID;
+	import org.igniterealtime.xiff.util.DateTimeParser;
 	
 	/**
 	 * XEP-0136: Message Archiving
 	 *
 	 * @see http://xmpp.org/extensions/xep-0136.html
 	 */
-	public class ArchiveAutomaticExtension extends ArchiveExtension implements IExtension
+	public class ArchiveRetrieveExtension extends ArchiveExtension implements IExtension
 	{
-		public static const ELEMENT_NAME:String = "auto";
+		public static const ELEMENT_NAME:String = "retrieve";
 		
 		/**
 		 *
 		 * @param	parent
 		 */
-		public function ArchiveAutomaticExtension( parent:XML = null )
+		public function ArchiveRetrieveExtension( parent:XML = null )
 		{
 			super(parent);
 		}
 		
-		override public function getNS():String
-		{
-			return ArchiveExtension.NS;
-		}
-		
 		public function getElementName():String
 		{
-			return ArchiveAutomaticExtension.ELEMENT_NAME;
+			return ArchiveRetrieveExtension.ELEMENT_NAME;
         }
 		
+		/**
+		 *
+		 */
+		public function get withJid():UnescapedJID
+		{
+			var value:String = getAttribute("with");
+			if ( value != null )
+			{
+				return new UnescapedJID(value);
+			}
+			return null;
+		}
+		public function set withJid( value:UnescapedJID ):void
+		{
+			if ( value == null )
+			{
+				setAttribute("with", null);
+			}
+			else
+			{
+				setAttribute("with", value.toString());
+			}
+		}
 		
+		/**
+		 *
+		 */
+		public function get start():Date
+		{
+			return DateTimeParser.string2dateTime(getAttribute("start"));
+		}
+		public function set start( value:Date ):void
+		{
+			if ( value == null )
+			{
+				setAttribute("start", null);
+			}
+			else
+			{
+				setAttribute("start", DateTimeParser.dateTime2string(value));
+			}
+		}
 	}
 }

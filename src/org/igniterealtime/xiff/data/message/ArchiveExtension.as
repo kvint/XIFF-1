@@ -47,7 +47,10 @@ package org.igniterealtime.xiff.data.message
 		{
 			super(parent);
 		}
-		
-		
+
+		public function getNS():String
+		{
+			return ArchiveExtension.NS;
+		}
 	}
 }
